@@ -59,3 +59,18 @@ dotnet run
 ```
 Here `-it` will begin interactive session where it will enter to docker container. Here **microsoft/dotnet:latest** is the dotnet image from [DockerHub: microsoft/dotnet](https://hub.docker.com/r/microsoft/dotnet/). There are various options like *v1.0 or v1.1*, *runtime or sdk* & *debian or nanoserver*.  
 Docker commands like `docker ps`, `docker stop`, `docker rm` used to manage docker containers.
+
+#### Docker production image
+```sh
+dotnet new webapi -o dockerApp     // Create ASP.NET Core WebAPI application inside ./dockerApp
+cd dockerApp
+dotnet restore 
+dotnet run                         // Test application using GET http://localhost:5000/api/values           
+dotnet publish -c Release -o out   // Production .dll files added to ./out
+
+docker build -t dockerapp .        // Build docker image from 'dockerfile'
+docker run -it --rm dockerapp      // Run newly created docker container
+```
+Here *dotnet-docker/Dockerfile* contains dockerfile used above. Use of **microsoft/dotnet:runtime** because only *runtime* is needed for production. Default image with *SDK* used development. Other methods in [dotnet-docker](https://github.com/dotnet/dotnet-docker). 
+<br/><br/>In *dotnet-docker/Dockerfile.nano* uses **microsoft/dotnet:1.1-runtime-nanoserver** which is dotnet windows container. Need to build with file flag as follows `docker build -t aspnetapp -f Dockerfile.nano .`. More [dotnet-docker-samples](https://github.com/dotnet/dotnet-docker-samples).
+<br/><br/>In *dotnet-docker/Dockerfile-prebuild* applications is not published. Instead `dotnet restore` & `dotnet run` is done inside the container after copying all files. 
