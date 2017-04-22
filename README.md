@@ -49,4 +49,13 @@ There are some other generators like `generator-aspnet` to help with development
 ----------
 ### .NET Core with Docker
 
--- To be completed --
+#### Docker interactive session
+```sh
+docker run -it microsoft/dotnet:latest
+dotnet new console -o myApp
+cd myApp
+dotnet restore
+dotnet run
+```
+Here `-it` will begin interactive session where it will enter to docker container. Here **microsoft/dotnet:latest** is the dotnet image from [DockerHub: microsoft/dotnet](https://hub.docker.com/r/microsoft/dotnet/). There are various options like *v1.0 or v1.1*, *runtime or sdk* & *debian or nanoserver*.  
+Docker commands like `docker ps`, `docker stop`, `docker rm` used to manage docker containers.
